@@ -1,4 +1,4 @@
-name: 'skopeo-copy-action'
+name: 'skopeo-copy-action-new'
 description: 'Copy image from src to dst by Skopeo'
 author: jiahao.cai@coscene.io
 branding:
