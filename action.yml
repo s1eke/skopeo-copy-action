@@ -17,23 +17,27 @@ inputs:
   dst-creds:
     description: "credentials with format: [USERNAME]:[PASSWORD] to push destination image"
     required: true
+  multi-arch:
+    required: false
+    description: 'it accepts three values: system, all, index-only. The default value is system.'
+    default: 'system'
 
 runs:
   using: "composite"
   steps:
     - name: copy with src-creds only
       if: ${{ inputs.src-creds != '' && inputs.dst-creds == '' }}
-      run: skopeo copy --all --src-creds ${{ inputs.src-creds }} docker://${{ inputs.src-image }} docker://${{ inputs.dst-image }}
+      run: skopeo copy --multi-arch ${{ inputs.multi-arch }} --src-creds ${{ inputs.src-creds }} docker://${{ inputs.src-image }} docker://${{ inputs.dst-image }}
       shell: bash
     - name: copy with dst-creds only
       if: ${{ inputs.src-creds == '' && inputs.dst-creds != '' }}
-      run: skopeo copy --all --dest-creds ${{ inputs.dst-creds }} docker://${{ inputs.src-image }} docker://${{ inputs.dst-image }}
+      run: skopeo copy --multi-arch ${{ inputs.multi-arch }} --dest-creds ${{ inputs.dst-creds }} docker://${{ inputs.src-image }} docker://${{ inputs.dst-image }}
       shell: bash
     - name: copy with src-creds and dst-creds
       if: ${{ inputs.src-creds != '' && inputs.dst-creds != '' }}
-      run: skopeo copy --all --src-creds ${{ inputs.src-creds }} --dest-creds ${{ inputs.dst-creds }} docker://${{ inputs.src-image }} docker://${{ inputs.dst-image }}
+      run: skopeo copy --multi-arch ${{ inputs.multi-arch }} --src-creds ${{ inputs.src-creds }} --dest-creds ${{ inputs.dst-creds }} docker://${{ inputs.src-image }} docker://${{ inputs.dst-image }}
       shell: bash
     - name: copy without credentials
       if: ${{ inputs.src-creds == '' && inputs.dst-creds == '' }}
-      run: skopeo copy --all docker://${{ inputs.src-image }} docker://${{ inputs.dst-image }}
+      run: skopeo copy --multi-arch ${{ inputs.multi-arch }} docker://${{ inputs.src-image }} docker://${{ inputs.dst-image }}
       shell: bash

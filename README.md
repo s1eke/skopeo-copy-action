@@ -4,6 +4,8 @@ Reference: [Copying images](https://github.com/containers/skopeo#copying-images)
 
 Copy image from src to dst.
 
+If you are using GitHub runner, it is recommended to use ubuntu-24.04, as it has a newer version of skopeo, which can help avoid many inexplicable issues.
+
 ## Inputs
 
 | Input parameter name | Description                                                              | Example                                                   |
